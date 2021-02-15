@@ -4,10 +4,10 @@ import { WebexService } from '../webex.service';
 
 @Component({
   selector: 'app-webex',
-  templateUrl: './webex.component.html',
-  styleUrls: ['./webex.component.css']
+  templateUrl: './room.component.html',
+  styleUrls: ['./room.component.css']
 })
-export class WebexComponent implements OnInit {
+export class RoomComponent implements OnInit {
   webex:any;
   token:any;
   roomName: string;

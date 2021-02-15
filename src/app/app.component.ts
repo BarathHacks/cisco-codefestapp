@@ -7,7 +7,7 @@ import Webex from 'webex';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ng-webex';
+  title = 'CodeFestApp';
   webex: any;
 
   ngOnInit(): void {
