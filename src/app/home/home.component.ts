@@ -12,7 +12,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("Inside Home!!!");
-    this.webexService.performLogin();
+      this.webexService.performLogin();
+    
   }
 
 }

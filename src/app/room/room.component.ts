@@ -12,6 +12,8 @@ export class RoomComponent implements OnInit {
   addUser: string;
   removeUser: string;
   message: string;
+  deleteRoomId: string;
+  showRoomCreatedMessage: boolean = false;
 
   constructor(private webexService: WebexService) {
   }
@@ -22,6 +24,8 @@ export class RoomComponent implements OnInit {
 
   createRoom() {
     this.webexService.createRoom(this.roomName);
+    this.createdRoomId = localStorage.getItem("createdRoomId");
+    this.showRoomCreatedMessage= true;
   }
 
   addUserToRoom() {
@@ -29,7 +33,14 @@ export class RoomComponent implements OnInit {
   }
 
   removeRoom() {
+    this.listRooms();
     this.webexService.removeRoom();
+  }
+
+  listRooms() {
+    this.webexService.onListRoom().then((rooms) => {
+      console.log(rooms)
+    })
   }
 
   sendMessageToRoom() {

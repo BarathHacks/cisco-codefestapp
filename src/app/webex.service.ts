@@ -59,7 +59,7 @@ export class WebexService {
         return room.id;
       });
       console.log(this.createdRoomId);
-      
+      localStorage.setItem("createdRoomId",this.createdRoomId);   
   }
 
   addUserToRoom(newUser:string) {
@@ -68,6 +68,10 @@ export class WebexService {
 
   removeRoom() {
     this.webex.rooms.remove(this.createdRoomId);
+  }
+
+  async onListRoom() {
+    return this.webex.rooms.list()
   }
 
   sendMessageToRoom(message:string) {
