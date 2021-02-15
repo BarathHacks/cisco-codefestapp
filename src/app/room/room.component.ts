@@ -26,7 +26,6 @@ export class RoomComponent implements OnInit {
 
   addUserToRoom() {
     this.webexService.addUserToRoom(this.addUser);
-    // this.webex.memberships.create(this.getMembershipObject(this.createdRoomId, this.addUser));
   }
 
   removeRoom() {
