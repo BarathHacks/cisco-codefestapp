@@ -1,0 +1,27 @@
+<h1>Webex Meetings</h1>
+
+<h2>Webex SDK</h2>
+<!-- <input type="text" [(ngModel)]="token" id="token" />
+<button (click)="onSubmit()">Save Token</button> -->
+<p>Webex Instance Created: {{!!webex}}</p>
+
+<!-- <button (click)="onGetMe()">Get Me</button> -->
+
+<h2>Room</h2>
+<!-- <p>
+  Registered: {{ registered }}<br/>
+  Sync Status: {{ syncStatus }}
+</p> -->
+<input type="text" [(ngModel)]="roomName" id="roomName" />
+<button (click)="createRoom()">Create Room</button>
+<input type="text" [(ngModel)]="addUser" id="addUser" />
+<button (click)="addUserToRoom()">Add User</button>
+<input type="text" [(ngModel)]="removeUser" id="removeUser" />
+<button (click)="removeUserFromRoom()">Remove User</button>
+<button (click)="removeRoom()">Remove Room</button>
+<br>
+<input type="text" [(ngModel)]="message" id="message" />
+<button (click)="sendMessageToRoom()">Send Message</button>
+<!-- <button (click)="onCreateMeeting(destination)">Create Meeting</button> -->
+
+<!-- <pre>{{printMeeting()}}</pre> -->
