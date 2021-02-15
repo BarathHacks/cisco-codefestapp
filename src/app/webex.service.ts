@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import Webex from 'webex';
 
 @Injectable({
@@ -11,20 +12,32 @@ export class WebexService {
   constructor() { }
 
   performLogin() {
-    let redirect_uri = "http://localhost:4200";
     this.webex = Webex.init({
       config: {
         meetings: {
           deviceType: 'WEB'
         },
         credentials: {
-          client_id: 'C363c710f07a19092b369a1006c6a022646e76bc3a04f321e3d9924281813292a',
-          redirect_uri: redirect_uri,
-          scope: 'spark:all spark:kms'
+          client_id: environment.client_id,
+          redirect_uri: environment.redirect_uri,
+          scope: environment.scope
         }
       }
     });
     this.listenForWebex(); 
+  }
+
+  initializeWebexObjectWithClientToken() {
+    this.webex = Webex.init({
+      config: {
+        meetings: {
+          deviceType: 'WEB'
+        }
+      },
+      credentials: {
+        access_token: localStorage.getItem('webex_token')
+      }
+    });
   }
 
   async listenForWebex() {
@@ -39,28 +52,27 @@ export class WebexService {
     });
   }
 
-  async createRoom(webexInstance:any, roomName: string) {
-    this.createdRoomId = await webexInstance.rooms.create({ title: roomName })
+  async createRoom(roomName: string) {
+    this.createdRoomId = await this.webex.rooms.create({ title: roomName })
       .then(function (room) {
         console.log(room.title);
-        // console.log(room.id);
         return room.id;
       });
       console.log(this.createdRoomId);
       
   }
 
-  addUserToRoom(webexInstance:any,newUser:string) {
-    webexInstance.memberships.create(this.getMembershipObject(this.createdRoomId, newUser));
+  addUserToRoom(newUser:string) {
+    this.webex.memberships.create(this.getMembershipObject(this.createdRoomId, newUser));
   }
 
-  removeRoom(webexInstance:any) {
-    webexInstance.rooms.remove(this.createdRoomId);
+  removeRoom() {
+    this.webex.rooms.remove(this.createdRoomId);
   }
 
-  sendMessageToRoom(webexInstance:any, message:string) {
+  sendMessageToRoom(message:string) {
     console.log("Room id before message: " + this.createdRoomId);
-    webexInstance.messages.create({
+    this.webex.messages.create({
         text: message,
         roomId: this.createdRoomId
       })
