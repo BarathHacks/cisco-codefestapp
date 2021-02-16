@@ -6,8 +6,8 @@ import Webex from 'webex';
   providedIn: 'root'
 })
 export class WebexService {
-  webex:any;
-  createdRoomId:string;
+  webex: any;
+  createdRoomId: string;
 
   constructor() { }
 
@@ -24,7 +24,7 @@ export class WebexService {
         }
       }
     });
-    this.listenForWebex(); 
+    this.listenForWebex();
   }
 
   initializeWebexObjectWithClientToken() {
@@ -44,7 +44,7 @@ export class WebexService {
     this.webex.once(`ready`, () => {
       console.log(this.webex.canAuthorize);
       console.log("READY", this.webex.credentials.supertoken)
-      if (this.webex.canAuthorize){
+      if (this.webex.canAuthorize) {
         localStorage.setItem('webex_token', this.webex.credentials.supertoken.access_token)
       } else {
         this.webex.authorization.initiateLogin();
@@ -53,38 +53,46 @@ export class WebexService {
   }
 
   async createRoom(roomName: string) {
-    this.createdRoomId = await this.webex.rooms.create({ title: roomName })
-      .then(function (room) {
-        console.log(room.title);
-        return room.id;
-      });
+    try {
+      this.createdRoomId = await this.webex.rooms.create({ title: roomName })
+        .then(function (room) {
+          console.log(room.title);
+          return room.id;
+        });
       console.log(this.createdRoomId);
-      localStorage.setItem("createdRoomId",this.createdRoomId);   
+      localStorage.setItem("createdRoomId", this.createdRoomId);
+    } catch (error) {
+      window.alert(error);
+    }
   }
 
-  addUserToRoom(newUser:string) {
+  addUserToRoom(newUser: string) {
     this.webex.memberships.create(this.getMembershipObject(this.createdRoomId, newUser));
   }
 
   removeRoom() {
+    if(this.createdRoomId !== undefined && this.createdRoomId.length > 0) {
     this.webex.rooms.remove(this.createdRoomId);
+    } else {
+      window.alert("No room has been created. Please create a room for it to be deleted.")
+    }
   }
 
   async onListRoom() {
     return this.webex.rooms.list()
   }
 
-  sendMessageToRoom(message:string) {
+  sendMessageToRoom(message: string) {
     console.log("Room id before message: " + this.createdRoomId);
     this.webex.messages.create({
-        text: message,
-        roomId: this.createdRoomId
-      })
+      text: message,
+      roomId: this.createdRoomId
+    })
   }
 
-  getMembershipObject(roomId:string, user:string) {
+  getMembershipObject(roomId: string, user: string) {
     let wbxMember = {
-      personEmail : user,
+      personEmail: user,
       roomId: roomId
     }
     return wbxMember;
