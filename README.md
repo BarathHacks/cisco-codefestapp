@@ -19,7 +19,7 @@ The app is predominantly divided into 3 components:
  Reference: 
  https://webex.github.io/webex-js-sdk/api/#rooms
  
- Live App: https://amanjain201.github.io/cisco-codefestapp/rooms
+ Live App: https://amanjain201.github.io/cisco-codefestapp/
  
 ## Development server
 
